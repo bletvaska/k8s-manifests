@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app
+    tier: frontend
+    env: prod
+    customer: tuke
+  name: app
+  namespace: wordpress
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - image: wordpress
+        name: wordpress
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: db
+        - name: WORDPRESS_DB_USER
+          value: wpuser
+        - name: WORDPRESS_DB_PASSWORD
+          value: end321
+        - name: WORDPRESS_DB_NAME
+          value: wordpress
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: app
+    customer: tuke
+    env: prod
+    tier: frontend
+  name: app
+  namespace: wordpress
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: app
+  type: LoadBalancer

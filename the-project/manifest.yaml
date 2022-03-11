@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+    customer: t-sys
+    tier: backend
+    env: dev
+    version: 10.7.3
+    region: europe
+  name: db
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+        type: pod
+    spec:
+      containers:
+      - image: mariadb
+        name: mariadb
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          value: secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: db
+    customer: t-sys
+    env: dev
+    region: europe
+    tier: backend
+    version: 10.7.3
+  name: db
+spec:
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: db
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: adminer
+  name: adminer
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adminer
+  template:
+    metadata:
+      labels:
+        app: adminer
+    spec:
+      containers:
+      - image: adminer
+        name: adminer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adminer
+  name: adminer-cl
+
+spec:
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: adminer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adminer
+  name: adminer-lb
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: adminer
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adminer
+  name: adminer-np
+spec:
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: adminer
+  type: NodePort
+
