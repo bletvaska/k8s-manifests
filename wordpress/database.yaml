@@ -32,12 +32,15 @@ spec:
             value: end321
         volumeMounts:
         - mountPath: /var/lib/mysql
-          name: db-data
+          name: claim-data
       volumes:
       - name: db-data
         hostPath: 
           path: /wp-data
           type: DirectoryOrCreate
+      - name: claim-data
+        persistentVolumeClaim:
+          claimName: wp-claim
 
 ---
 

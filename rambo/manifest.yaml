@@ -5,7 +5,7 @@ metadata:
     app: rambo
   name: rambo
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: rambo
@@ -19,7 +19,7 @@ spec:
         name: rambo
         volumeMounts:
         - mountPath: /usr/share/nginx/html
-          name: homepage
+          name: pvc-www
 
       volumes:
       - name: www
@@ -28,6 +28,9 @@ spec:
         hostPath:
           path: /tmp/www
           type: DirectoryOrCreate
+      - name: pvc-www
+        persistentVolumeClaim:
+          claimName: example-claim
 
 ---
 
