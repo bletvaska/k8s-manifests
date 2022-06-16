@@ -23,6 +23,14 @@ spec:
             name: minio-cm
         - secretRef:
             name: minio-secrets
+        volumeMounts:
+        - name: storage
+          mountPath: /data
+      volumes:
+      - name: storage
+        hostPath:
+            path: /mnt/minio-data
+            type: DirectoryOrCreate
 
 ---
 
