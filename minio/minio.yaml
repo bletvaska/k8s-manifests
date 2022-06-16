@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: minio
+  name: minio
+  namespace: storage
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: minio 
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - image: bitnami/minio
+        name: minio
+        envFrom:
+        - configMapRef:
+            name: minio-cm
+        - secretRef:
+            name: minio-secrets
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: minio
+  name: minio-cl
+  namespace: storage
+spec:
+  ports:
+  - port: 9000
+    protocol: TCP
+    targetPort: 9000
+    name: api
+  - port: 9001
+    protocol: TCP
+    targetPort: 9001
+    name: ui
+  selector:
+    app: minio
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: minio
+  name: minio-np
+  namespace: storage
+spec:
+  type: NodePort
+  ports:
+  - port: 9001
+    protocol: TCP
+    targetPort: 9001
+    name: ui
+    nodePort: 32000
+  selector:
+    app: minio
+

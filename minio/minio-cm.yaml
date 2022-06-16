@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: minio-cm
+    namespace: storage
+data:
+    MINIO_DEFAULT_BUCKETS: "videos,movies,documents,pictures,music,books"
+#    MINIO_BROWSER_REDIRECT_URL: "http://3.124.204.179/minio/"
+

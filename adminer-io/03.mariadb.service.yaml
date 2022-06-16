@@ -2,12 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: db
-    customer: t-sys
-    env: dev
-    region: europe
-    tier: backend
-    version: 10.7.3
+    app: mariadb
   name: db
 spec:
   ports:
@@ -15,4 +10,5 @@ spec:
     protocol: TCP
     targetPort: 3306
   selector:
-    app: db
+    app: mariadb
+

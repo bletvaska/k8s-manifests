@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo-1
+  name: rambo-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo-1
+  template:
+    metadata:
+      labels:
+        app: rambo-1
+    spec:
+      containers:
+      - image: bletvaska/rambo:1
+        name: rambo-1
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rambo-1
+  name: rambo-1
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: rambo-1
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo-2
+  name: rambo-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo-2
+  template:
+    metadata:
+      labels:
+        app: rambo-2
+    spec:
+      containers:
+      - image: bletvaska/rambo:2
+        name: rambo-2
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rambo-2
+  name: rambo-2
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: rambo-2
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo-3
+  name: rambo-3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo-3
+  template:
+    metadata:
+      labels:
+        app: rambo-3
+    spec:
+      containers:
+      - image: bletvaska/rambo:3
+        name: rambo-3
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rambo-3
+  name: rambo-3
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: rambo-3
+
+---
+

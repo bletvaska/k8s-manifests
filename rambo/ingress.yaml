@@ -1,23 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rambo-ingress
-
+  name: rambo
+  namespace: wordpress
 spec:
   rules:
-  - host: rambo2.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: rambo-2
-            port:
-              number: 80
- 
-  - host: rambo.local
-    http:
+  - http:
       paths:
       - path: /rambo/1
         pathType: Prefix
@@ -26,13 +14,7 @@ spec:
             name: rambo-1
             port:
               number: 80
-      - path: /year/1982
-        pathType: Prefix
-        backend:
-          service:
-            name: rambo-1
-            port:
-              number: 80
+
       - path: /rambo/2
         pathType: Prefix
         backend:
@@ -40,6 +22,7 @@ spec:
             name: rambo-2
             port:
               number: 80
+
       - path: /rambo/3
         pathType: Prefix
         backend:
@@ -47,3 +30,4 @@ spec:
             name: rambo-3
             port:
               number: 80
+

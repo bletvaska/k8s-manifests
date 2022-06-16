@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio
+  namespace: storage
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /minio
+        pathType: Prefix
+        backend:
+          service:
+            name: minio-cl
+            port:
+              number: 9001
+

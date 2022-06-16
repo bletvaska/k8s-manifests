@@ -4,7 +4,6 @@ metadata:
   labels:
     app: adminer
   name: adminer
-
 spec:
   replicas: 1
   selector:
@@ -18,3 +17,4 @@ spec:
       containers:
       - image: adminer
         name: adminer
+

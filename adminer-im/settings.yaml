@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb
+  namespace: adminer-imp
+data:
+  root_password: secret
+  user: wp_user
+  password: wp_password
+  database: wordpress
+

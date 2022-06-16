@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wordpress
+    tier: frontend
+    env: prod
+    customer: tuke
+    kind: deployment
+  name: wp-app
+  namespace: wordpress
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: frontend
+        env: prod
+        customer: tuke
+    spec:
+      containers:
+      - image: wordpress
+        name: wordpress
+        envFrom:
+        - configMapRef:
+            name: wordpress-cm
+        - secretRef:
+            name: wordpress
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+#   labels:
+#     app: wp-app
+#     tier: frontend
+#     env: prod
+#     customer: tuke
+  name: wp-app
+spec:
+  #type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+   # nodePort: 30100
+  selector:
+    app: wordpress
+

@@ -2,24 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: db
-    customer: t-sys
-    tier: backend
-    env: dev
-    version: 10.7.3
-    region: europe
-  name: db
-
+    app: mariadb
+  name: mariadb
+  namespace: adminer-imp
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: db
+      app: mariadb
   template:
     metadata:
       labels:
-        app: db
-        type: pod
+        app: mariadb
+        version: "10.8"
     spec:
       containers:
       - image: mariadb

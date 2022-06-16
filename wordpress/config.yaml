@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: configuration
+    namespace: wordpress
+data:
+    database: wordpress
+
+#    root_password: mega.supa
+#    username: user
+#    password: password
+
