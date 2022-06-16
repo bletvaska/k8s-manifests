@@ -28,9 +28,11 @@ spec:
           mountPath: /data
       volumes:
       - name: storage
-        hostPath:
-            path: /mnt/minio-data
-            type: DirectoryOrCreate
+        persistentVolumeClaim:
+            claimName: minio-pvc
+#         hostPath:
+#             path: /mnt/minio-data
+#             type: DirectoryOrCreate
 
 ---
 
