@@ -4,9 +4,9 @@ metadata:
   labels:
     app: adminer
   name: adminer
-
+  namespace: the-project
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: adminer

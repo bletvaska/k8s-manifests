@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: the-project
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+  name: db
+  namespace: the-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - image: mariadb
+        name: mariadb
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: secret
+      - image: bletvaska/rambo:1
+        name: rambo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: db
+  name: db
+  namespace: the-project
+spec:
+  ports:
+  - name: www
+    port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: db
+  type: ClusterIP
+
