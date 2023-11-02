@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio
+  namespace: minio
+data:
+  MINIO_ROOT_USER: janosik
+  MINIO_ROOT_PASSWORD: valaska123
+  MINIO_DEFAULT_BUCKETS: pictures,videos,music,docs
