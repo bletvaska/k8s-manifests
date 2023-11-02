@@ -4,6 +4,31 @@
 #   name: wordpress
 
 # ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  # namespace: wordpress
+data:
+  MARIADB_DATABASE: wordpress
+  WORDPRESS_DB_HOST: wp-db
+  MARIADB_USER: wpuser
+  WORDPRESS_DB_USER: wpuser
+  WORDPRESS_DB_NAME: wordpress  
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret
+  # namespace: wordpress
+data:
+  MARIADB_ROOT_PASSWORD: dG9wLnNlY3JldA==
+  MARIADB_PASSWORD: ZW5kMzIx
+  WORDPRESS_DB_PASSWORD: ZW5kMzIx
+
+---
 
 apiVersion: apps/v1
 kind: Deployment
@@ -29,15 +54,11 @@ spec:
       containers:
       - image: mariadb
         name: mariadb
-        env:
-        - name: MARIADB_ROOT_PASSWORD
-          value: top.secret
-        - name: MARIADB_DATABASE
-          value: wordpress
-        - name: MARIADB_USER
-          value: wpuser
-        - name: MARIADB_PASSWORD
-          value: end321
+        envFrom:
+        - configMapRef:
+            name: config
+        - secretRef:
+            name: secret
 
 ---
 
@@ -83,15 +104,11 @@ spec:
       containers:
       - image: wordpress
         name: wordpress
-        env:
-        - name: WORDPRESS_DB_HOST
-          value: wp-db
-        - name: WORDPRESS_DB_USER
-          value: wpuser
-        - name: WORDPRESS_DB_PASSWORD
-          value: end321
-        - name: WORDPRESS_DB_NAME
-          value: wordpress
+        envFrom:
+        - configMapRef:
+            name: config
+        - secretRef:
+            name: secret
 
 ---
 

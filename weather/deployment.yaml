@@ -21,6 +21,16 @@ spec:
         envFrom:
         - configMapRef:
             name: app-settings
+        - secretRef:
+            name: credentials
+
+
+        # env:
+        # - name: WEATHER_TOKEN
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: credentials
+        #       key: token
 
         # env:
         # - name: WEATHER_QUERY
