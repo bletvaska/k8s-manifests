@@ -19,13 +19,9 @@ spec:
       - image: nginx:latest
         name: nginx
         volumeMounts:
-        - name: homepage2
+        - name: claim
           mountPath: /usr/share/nginx/html
       volumes:
-      - name: homepage
-        emptyDir:
-          sizeLimit: 5Mi
-      - name: homepage2
-        hostPath:
-          path: /tmp/www
-          type: DirectoryOrCreate
+      - name: claim
+        persistentVolumeClaim:
+          claimName: claim-200

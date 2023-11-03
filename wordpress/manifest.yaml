@@ -59,6 +59,13 @@ spec:
             name: config
         - secretRef:
             name: secret
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql/
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: mariadb
 
 ---
 
