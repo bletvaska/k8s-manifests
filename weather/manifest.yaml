@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: weather
+  name: weather
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather
+  template:
+    metadata:
+      labels:
+        app: weather
+    spec:
+      containers:
+      - image: bletvaska/weather:2023.12
+        name: weather
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: weather
+  name: weather
+  # namespace: application
+spec:
+  ports:
+  - name: www
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: weather
+  type: LoadBalancer
