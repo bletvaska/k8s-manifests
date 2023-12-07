@@ -1,20 +1,19 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: application
+  name: minio
 
 ---
 
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-settings
-  namespace: application
+  name: settings
+  namespace: minio
 data:
-  query: bratislava,sk
-  units: metric
-  update_interval: "20"
-
+  MINIO_SECRET_KEY: valaska123
+  MINIO_ACCESS_KEY: janosik
+  MINIO_DEFAULT_BUCKETS: pictures,videos,music,docs
 
 ---
 
@@ -22,27 +21,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: nginx
-  name: nginx
-  namespace: application
+    app: minio
+  name: minio
+  namespace: minio
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: minio
   template:
     metadata:
       labels:
-        app: nginx
+        app: minio
     spec:
       containers:
-      - image: nginx:latest
-        name: nginx
+      - image: bitnami/minio
+        name: minio
         envFrom:
         - configMapRef:
-            name: app-config
-        - secretRef:
-            name: secrets
+            name: settings
 
 ---
 
@@ -50,15 +47,19 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: nginx
-  name: nginx
-  namespace: application
+    app: minio
+  name: minio
+  namespace: minio
 spec:
   ports:
   - name: www
-    port: 80
+    port: 9000
     protocol: TCP
-    targetPort: 80
+    targetPort: 9000
+  - name: api
+    port: 9001
+    protocol: TCP
+    targetPort: 9001
   selector:
     app: nginx
-  type: ClusterIP
+  type: LoadBalancer
