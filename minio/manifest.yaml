@@ -11,8 +11,8 @@ metadata:
   name: settings
   namespace: minio
 data:
-  MINIO_SECRET_KEY: valaska123
-  MINIO_ACCESS_KEY: janosik
+  MINIO_SERVER_SECRET_KEY: valaska123
+  MINIO_SERVER_ACCESS_KEY: janosik
   MINIO_DEFAULT_BUCKETS: pictures,videos,music,docs
 
 ---
