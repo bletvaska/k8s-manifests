@@ -11,8 +11,8 @@ metadata:
   name: settings
   namespace: minio
 data:
-  MINIO_SERVER_SECRET_KEY: valaska123
-  MINIO_SERVER_ACCESS_KEY: janosik
+  MINIO_ROOT_USER: janosik
+  MINIO_ROOT_PASSWORD: valaska123
   MINIO_DEFAULT_BUCKETS: pictures,videos,music,docs
 
 ---
@@ -53,11 +53,11 @@ metadata:
 spec:
   ports:
   - name: www
-    port: 9000
+    port: 9001
     protocol: TCP
     targetPort: 9000
   - name: api
-    port: 9001
+    port: 9000
     protocol: TCP
     targetPort: 9001
   selector:
