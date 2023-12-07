@@ -17,12 +17,9 @@ spec:
       containers:
       - image: bletvaska/weather:2023.12
         name: weather
-        env:
-        - name: WEATHER_QUERY
-          valueFrom:
-            configMapKeyRef:
-              name: settings
-              key: WEATHER_QUERY
+        envFrom:
+        - configMapRef:
+            name: settings
 
 ---
 
