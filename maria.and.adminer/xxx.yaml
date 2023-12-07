@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: weather
+  name: weather
+  # namespace: application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: weather
+  template:
+    metadata:
+      labels:
+        app: weather
+    spec:
+      containers:
+      - image: bletvaska/weather
+        name: weather
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx
+    env: prod # devel | testing | prod
+  name: nginx
+  namespace: application
+spec:
+  ports:
+  - name: www
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: ClusterIP  # NodePort | LoadBalancer | ClusterIP

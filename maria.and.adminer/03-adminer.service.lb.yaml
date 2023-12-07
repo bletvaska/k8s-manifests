@@ -4,9 +4,10 @@ metadata:
   labels:
     app: adminer
   name: adminer-lb
+  namespace: the-project
 spec:
   ports:
-  - port: 8080
+  - port: 8000
     protocol: TCP
     targetPort: 8080
   selector:

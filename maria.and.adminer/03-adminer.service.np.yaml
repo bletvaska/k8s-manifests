@@ -4,11 +4,13 @@ metadata:
   labels:
     app: adminer
   name: adminer-np
+  namespace: the-project
 spec:
   ports:
-  - port: 8080
+  - port: 8000
     protocol: TCP
     targetPort: 8080
+    nodePort: 32000
   selector:
     app: adminer
   type: NodePort

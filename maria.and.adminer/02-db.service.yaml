@@ -3,12 +3,8 @@ kind: Service
 metadata:
   labels:
     app: db
-    customer: t-sys
-    env: dev
-    region: europe
-    tier: backend
-    version: 10.7.3
   name: db
+  namespace: the-project
 spec:
   ports:
   - port: 3306
