@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wp-db
+    tier: backend
+    env: prod
+    customer: tuke
+  name: wp-db
+  # namespace: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wp-db
+  template:
+    metadata:
+      labels:
+        app: wp-db
+    spec:
+      containers:
+      - image: mariadb
+        name: mariadb
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          value: top.secret
+        - name: MARIADB_USER
+          value: wpuser
+        - name: MARIADB_PASSWORD
+          value: end321
+        - name: MARIADB_DATABASE
+          value: wordpress
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wp-db
+  name: wp-db
+  # namespace: wordpress
+spec:
+  ports:
+  - name: db
+    port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: wp-db
+  type: ClusterIP
