@@ -4,7 +4,7 @@ metadata:
   name: claim-100
   # namespace: application
 spec:
-  # storageClassName: ""
+  storageClassName: ""
   accessModes:
     - ReadWriteOnce
   resources:
