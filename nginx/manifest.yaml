@@ -23,7 +23,13 @@ spec:
 
       volumes:
       - name: homepage
-        emptyDir: {}
+        hostPath:
+          path: /mnt/data
+          type: DirectoryOrCreate
+
+      - name: homepage-empty
+        emptyDir:
+          sizeLimit: 100Mi
 
 ---
 
