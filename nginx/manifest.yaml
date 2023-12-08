@@ -17,6 +17,13 @@ spec:
       containers:
       - image: nginx:latest
         name: nginx
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: homepage
+
+      volumes:
+      - name: homepage
+        emptyDir: {}
 
 ---
 
