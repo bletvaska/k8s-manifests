@@ -96,7 +96,19 @@ metadata:
   namespace: rambo
 spec:
   rules:
-  - http:
+  - host: www.rambo1.sk
+    http:
+      paths:
+      - backend:
+          service:
+            name: rambo-1
+            port:
+              number: 80
+        path: /
+        pathType: Prefix  # Prefix
+
+  - host: www.paradzina.sk
+    http:
       paths:
       - backend:
           service:
