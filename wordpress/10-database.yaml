@@ -1,3 +1,39 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-claim
+  # namespace: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: settings
+  # namespace: wordpress
+data:
+  MARIADB_DATABASE: wordpress
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: credentials
+  # namespace: wordpress
+data:
+  MARIADB_ROOT_PASSWORD: dG9wLnNlY3JldA==
+  MARIADB_USER: d3B1c2Vy
+  MARIADB_PASSWORD: ZW5kMzIx
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,17 +57,21 @@ spec:
       containers:
         - image: mariadb
           name: mariadb
-          env:
-            - name: MARIADB_ROOT_PASSWORD
-              value: top.secret
-            - name: MARIADB_USER
-              value: wpuser
-            - name: MARIADB_PASSWORD
-              value: end321
-            - name: MARIADB_DATABASE
-              value: wordpress
+          envFrom:
+          - configMapRef:
+              name: settings
+          - secretRef:
+              name: credentials
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: db
+      volumes:
+      - name: db
+        persistentVolumeClaim:
+          claimName: db-claim
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
