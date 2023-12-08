@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: settings
+  name: db-settings
   # namespace: wordpress
 data:
   MARIADB_DATABASE: wordpress
@@ -25,7 +25,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: credentials
+  name: db-credentials
   # namespace: wordpress
 data:
   MARIADB_ROOT_PASSWORD: dG9wLnNlY3JldA==
@@ -59,9 +59,9 @@ spec:
           name: mariadb
           envFrom:
           - configMapRef:
-              name: settings
+              name: db-settings
           - secretRef:
-              name: credentials
+              name: db-credentials
           volumeMounts:
           - mountPath: /var/lib/mysql
             name: db
