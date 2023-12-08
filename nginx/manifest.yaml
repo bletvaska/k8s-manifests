@@ -19,17 +19,21 @@ spec:
         name: nginx
         volumeMounts:
         - mountPath: /usr/share/nginx/html
-          name: homepage
+          name: claim
 
       volumes:
-      - name: homepage
-        hostPath:
-          path: /mnt/data
-          type: DirectoryOrCreate
+      - name: claim
+        persistentVolumeClaim:
+          claimName: claim-100
 
-      - name: homepage-empty
-        emptyDir:
-          sizeLimit: 100Mi
+      # - name: homepage-hp
+      #   hostPath:
+      #     path: /mnt/data
+      #     type: DirectoryOrCreate
+
+      # - name: homepage-empty
+      #   emptyDir:
+      #     sizeLimit: 100Mi
 
 ---
 
