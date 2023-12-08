@@ -66,11 +66,11 @@ spec:
   - name: www
     port: 9001
     protocol: TCP
-    targetPort: 9000
+    targetPort: 9001
   - name: api
     port: 9000
     protocol: TCP
-    targetPort: 9001
+    targetPort: 9000
   selector:
     app: minio
   type: ClusterIP
@@ -89,12 +89,12 @@ spec:
   - name: www
     port: 9001
     protocol: TCP
-    targetPort: 9000
+    targetPort: 9001
     nodePort: 32000
   - name: api
     port: 9000
     protocol: TCP
-    targetPort: 9001
+    targetPort: 9000
     nodePort: 32001
   selector:
     app: minio
