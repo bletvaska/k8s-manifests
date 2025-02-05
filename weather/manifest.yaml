@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: weather
+  name: weather
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather
+  template:
+    metadata:
+      labels:
+        app: weather
+    spec:
+      containers:
+        - image: bletvaska/weather
+          name: weather
+          resources:
+            requests:
+              cpu: 100m
+              memory: 50Mi
+            limits:
+              cpu: 200m
+              memory: 150Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: weather
+  name: weather
+spec:
+  ports:
+    - name: www
+      port: 80
+      protocol: TCP
+      targetPort: 8000
+  selector:
+    app: weather
