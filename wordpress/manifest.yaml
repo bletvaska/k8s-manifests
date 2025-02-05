@@ -2,9 +2,15 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: wordpress
-
 ---
-
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db
+  namespace: wordpress
+data:
+  MARIADB_DATABASE: wordpress
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,20 +32,26 @@ spec:
         app: wp-db
     spec:
       containers:
-      - image: mariadb
-        name: mariadb
-        env:
-        - name: MARIADB_ROOT_PASSWORD
-          value: top.secret
-        - name: MARIADB_DATABASE
-          value: wordpress
-        - name: MARIADB_USER
-          value: wpuser
-        - name: MARIADB_PASSWORD
-          value: end321
-
+        - image: mariadb
+          name: mariadb
+          envFrom:
+            - configMapRef:
+                name: db
+            - secretRef:
+                name: db
+          env:
+            - name: MARIADB_USER
+              value: wpuser
+            - name: MARIADB_PASSWORD
+              value: end321
+          resources:
+            requests:
+              memory: 100Mi
+              cpu: 100m
+            limits:
+              memory: 500Mi
+              cpu: 200m
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,16 +64,14 @@ metadata:
   namespace: wordpress
 spec:
   ports:
-  - name: db
-    port: 3306
-    protocol: TCP
-    targetPort: 3306
+    - name: db
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
   selector:
     app: wp-db
-  # type: ClusterIP
-
+    # type: ClusterIP
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -83,20 +93,18 @@ spec:
         app: wp-app
     spec:
       containers:
-      - image: wordpress
-        name: wp-app
-        env:
-        - name: WORDPRESS_DB_HOST
-          value: wp-db
-        - name: WORDPRESS_DB_NAME
-          value: wordpress
-        - name: WORDPRESS_DB_USER
-          value: wpuser
-        - name: WORDPRESS_DB_PASSWORD
-          value: end321
-
+        - image: wordpress
+          name: wp-app
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: wp-db
+            - name: WORDPRESS_DB_NAME
+              value: wordpress
+            - name: WORDPRESS_DB_USER
+              value: wpuser
+            - name: WORDPRESS_DB_PASSWORD
+              value: end321
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -109,16 +117,14 @@ metadata:
   namespace: wordpress
 spec:
   ports:
-  - name: www
-    port: 8000
-    protocol: TCP
-    targetPort: 80
+    - name: www
+      port: 8000
+      protocol: TCP
+      targetPort: 80
   selector:
     app: wp-app
   type: LoadBalancer
-
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -139,11 +145,9 @@ spec:
         app: wp-adminer
     spec:
       containers:
-      - image: adminer
-        name: adminer
-
+        - image: adminer
+          name: adminer
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -155,11 +159,11 @@ metadata:
   namespace: wordpress
 spec:
   ports:
-  - name: www
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
-    nodePort: 31500
+    - name: www
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+      nodePort: 31500
   selector:
     app: wp-adminer
   type: NodePort
