@@ -1,3 +1,11 @@
+# pred spustenim treba mat vytvoreny secrets s nazvom minio. napr. z .env suboru:
+# minio.env
+# MINIO_ROOT_USER=janosik
+# MINIO_ROOT_PASSWORD=valaska123
+#
+# kubectl create secret generic minio --from-env-file minio.env
+#
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
