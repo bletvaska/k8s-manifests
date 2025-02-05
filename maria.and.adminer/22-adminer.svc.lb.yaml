@@ -3,8 +3,7 @@ kind: Service
 metadata:
   labels:
     app: adminer
-  name: adminer-cl
-
+  name: adminer-lb
 spec:
   ports:
   - port: 8000
@@ -12,3 +11,4 @@ spec:
     targetPort: 8080
   selector:
     app: adminer
+  type: LoadBalancer
