@@ -1,4 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: www-claim
+spec:
+  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  accessModes:         # params
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,7 +38,7 @@ spec:
             cpu: 200m
             memory: 100Mi
         volumeMounts:
-        - name: storage
+        - name: claim
           mountPath: /usr/share/nginx/html
       volumes:
       - name: storage1
@@ -36,6 +48,9 @@ spec:
         hostPath:
           path: /tmp/www
           type: DirectoryOrCreate
+      - name: claim
+        persistentVolumeClaim:
+          claimName: www-claim
 
 ---
 
