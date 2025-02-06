@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: www-claim
 spec:
-  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  storageClassName: "ssd" # Empty string must be explicitly set otherwise default StorageClass will be set
   accessModes:         # params
     - ReadWriteOnce
   resources:

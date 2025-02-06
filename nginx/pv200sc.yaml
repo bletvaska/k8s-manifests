@@ -8,6 +8,6 @@ spec:
     storage: 200Mi
   accessModes:         # additional params
     - ReadWriteOnce
-  hostPath:            # volume type params
-    path: "/mnt/200"
-    type: DirectoryOrCreate
+  # hostPath:            # volume type params
+  #   path: "/mnt/200"
+  #   type: DirectoryOrCreate
