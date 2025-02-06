@@ -28,9 +28,13 @@ spec:
         - name: storage
           mountPath: /usr/share/nginx/html
       volumes:
-      - name: storage
+      - name: storage1
         emptyDir:
           sizeLimit: 100Mi
+      - name: storage
+        hostPath:
+          path: /tmp/www
+          type: DirectoryOrCreate
 
 ---
 
