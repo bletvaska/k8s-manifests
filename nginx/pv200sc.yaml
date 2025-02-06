@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: 200m
+spec:
+  # storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  capacity:            # how much
+    storage: 200Mi
+  accessModes:         # additional params
+    - ReadWriteOnce
+  hostPath:            # volume type params
+    path: "/mnt/200"
+    type: DirectoryOrCreate
