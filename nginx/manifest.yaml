@@ -17,12 +17,20 @@ spec:
       containers:
       - image: nginx:latest
         name: nginx
+        resources:
+          requests:
+            cpu: 100m
+            memory: 50Mi
+          limits:
+            cpu: 200m
+            memory: 100Mi
         volumeMounts:
         - name: storage
           mountPath: /usr/share/nginx/html
       volumes:
       - name: storage
-        emptyDir: {}
+        emptyDir:
+          sizeLimit: 100Mi
 
 ---
 
